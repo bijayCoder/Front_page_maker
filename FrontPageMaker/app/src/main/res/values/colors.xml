@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="edt_hint">#aaa</color>
+    <color name="sky_light">#00cbfe</color>
+    <color name="sky_dark">#019ce0</color>
+    <color name="app_background">#F2FF6D</color>
+
+</resources>

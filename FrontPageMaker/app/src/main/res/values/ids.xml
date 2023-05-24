@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="hLine" type="id" />
+    <item name="txtSchool" type="id" />
+    <item name="rv_templates_school" type="id" />
+</resources>

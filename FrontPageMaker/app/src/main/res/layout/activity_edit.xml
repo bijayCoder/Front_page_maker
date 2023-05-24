@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    tools:context=".CollegeEditActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/page_details_form"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/sky_dark"
+        android:background="@android:color/transparent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_your_name"
+                android:textSize="10sp"
+                android:textColor="@color/sky_light"
+                android:background="@android:color/transparent"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/name"
+                android:textColor="@color/black"
+                android:textColorHint="@color/edt_hint"
+                android:backgroundTint="@color/sky_dark"
+                android:inputType="text"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_your_registration_number"
+                android:textSize="10sp"
+                android:textColor="@color/sky_light"
+                android:background="@android:color/transparent"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtRegNo"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/registration_number"
+                android:textColorHint="@color/edt_hint"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_your_roll_number"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtRollNo"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/roll_number"
+                android:textColorHint="@color/edt_hint"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_your_department"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtBranch"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/department"
+                android:textColorHint="@color/edt_hint"
+                android:textColor="@color/black"
+                android:inputType="text"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_semester_number"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtSem"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/semester"
+                android:textColorHint="@color/edt_hint"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_session"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtSession"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/sky_dark"
+                android:hint="@string/xxxx_xxxx"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/edt_hint"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_the_subject"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtSubject"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/subject"
+                android:textColorHint="@color/edt_hint"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_the_college_name"
+                android:textSize="10sp"
+                android:background="@android:color/transparent"
+                android:textColor="@color/sky_light"
+                tools:ignore="SmallSp" />
+            <EditText
+                android:id="@+id/edtCollegeName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/college_name"
+                android:textColor="@color/black"
+                android:textColorHint="@color/edt_hint"
+                android:inputType="text"
+                android:backgroundTint="@color/sky_dark"
+                android:autofillHints="" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cbQrCode"
+                    android:layout_width="100dp"
+                    android:layout_height="48dp"
+                    android:background="@color/sky_light"
+                    android:textColor="@color/black"
+                    android:text="@string/qr_code"
+                    android:layout_alignParentStart="true"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnLogo"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="5dp"
+                    android:text="logo"
+                    android:textColor="#4E4E4E"
+                    android:background="@color/sky_light"/>
+                <ImageView
+                    android:visibility="invisible"
+                    android:id="@+id/ivLogo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_toStartOf="@+id/btnLogo"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/submit_button_bg"
+                    android:text="@string/submit"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    </ScrollView>
+
+</RelativeLayout>

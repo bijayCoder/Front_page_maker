@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Front Page Maker</string>
+    <string name="share_via_whatsapp">share via whatsapp</string>
+    <string name="page_details_form">Page Details Form</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="name">Name</string>
+    <string name="enter_your_registration_number">Enter Your Registration Number</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="enter_your_roll_number">Enter Your Roll Number</string>
+    <string name="roll_number">Roll Number</string>
+    <string name="enter_your_department">Enter Your Department</string>
+    <string name="department">Department</string>
+    <string name="enter_semester_number">Enter Semester number</string>
+    <string name="semester">Semester</string>
+    <string name="enter_session">Enter Session</string>
+    <string name="xxxx_xxxx">XXXX-XXXX</string>
+    <string name="enter_the_subject">Enter The Subject</string>
+    <string name="subject">Subject</string>
+    <string name="qr_code">QR Code</string>
+    <string name="submit">Submit</string>
+    <string name="for_college">FOR COLLEGE</string>
+    <string name="for_school">FOR SCHOOL</string>
+    <string name="enter_the_college_name">Enter the college name</string>
+    <string name="college_name">College Name</string>
+</resources>
