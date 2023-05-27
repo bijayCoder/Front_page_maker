@@ -38,6 +38,7 @@ class SchoolTempAdapter internal constructor(var context: Context, var arrImage:
         holder.preview.setOnClickListener {
             val intent = Intent(context , PdfViewActivity::class.java);
             intent.putExtra("templateIndex" , position)
+            intent.putExtra("identity" , "school")
             context.startActivity(intent)
         }
 
