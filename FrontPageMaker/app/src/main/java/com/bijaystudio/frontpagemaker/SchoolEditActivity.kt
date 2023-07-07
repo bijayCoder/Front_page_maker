@@ -38,7 +38,7 @@ import java.io.File
 
 class SchoolEditActivity : AppCompatActivity() {
 
-    private val arrIdOfPdfSchool = arrayOf(R.raw.school_temp_one_pdf , R.raw.school_temp_two_pdf)
+    private val arrIdOfPdfSchool = arrayOf(R.raw.school_temp_one_pdf , R.raw.school_temp_two_pdf , R.raw.school_temp_three_pdf , R.raw.school_temp_four_pdf)
     @SuppressLint("SdCardPath")
     var directory = File("/sdcard/Documents/Front_Page_Maker/")
     private var folderPath = Environment.getDataDirectory().absolutePath + "/storage/emulated/0/Documents/Front_Page_Maker"
@@ -135,6 +135,10 @@ class SchoolEditActivity : AppCompatActivity() {
                 tempFirst(document , name , myClass, section , rollNo , session , subject , schoolName)
             1 ->
                 tempSecond(document , name , myClass, section , rollNo , session , subject , schoolName)
+            2 ->
+                tempThird(document , name , myClass, section , rollNo , session , subject , schoolName)
+            3 ->
+                tempFourth(document , name , myClass, section , rollNo , session , subject , schoolName)
         }
     }
 
@@ -261,7 +265,8 @@ class SchoolEditActivity : AppCompatActivity() {
 
         //QRCode
         if(cbQrCode.isChecked){
-            val bitmap = getBitmapOfQrText("Myself $name, I am from class $myClass, section $section and roll number $rollNo. I have completed an assignment in the subject of $subject.\n ThankYou!")
+            val bitmap = getBitmapOfQrText("Myself $name, I am from class $myClass, section $section" +
+                    " and roll number $rollNo. I have completed an assignment in the subject of $subject.\n ThankYou!")
             val stream = ByteArrayOutputStream()
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             val bitMapData = stream.toByteArray()
@@ -280,6 +285,180 @@ class SchoolEditActivity : AppCompatActivity() {
             contentStreamForImage.drawImage(qrImage , 246f , 600.0f , 100f , 100f)
             contentStreamForImage.close()
         }
+
+
+        writePdfFile(document , "Front_page_maker-" + System.currentTimeMillis())
+
+    }
+
+    private fun tempThird(document: PDDocument, name: String, myClass: String, section: String, rollNo: String, session: String, subject: String, schoolName: String) {
+        //edit the pdf for second template
+        val pdPage = document.getPage(0)
+        val cs =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+        cs.beginText()
+        val font = PDType0Font.load(document, assets.open("com/tom_roush/pdfbox/resources/ttf/LiberationSans-Regular.ttf"))
+        cs.setLeading(16.0f) //gap between  two line if used
+        cs.setFont(font , 25f)
+        cs.setNonStrokingColor(0f,0f,0f)
+
+        //name
+        cs.newLineAtOffset(140f ,497f )
+        cs.showText(name)
+
+        //class
+        cs.newLineAtOffset(-0.5f ,-67f )
+        cs.showText(myClass)
+
+        //section
+        cs.newLineAtOffset(22f ,-65f )
+        cs.showText(section)
+
+        //roll no
+        cs.newLineAtOffset(2f ,-65f )
+        cs.showText(rollNo)
+
+        //subject
+        cs.newLineAtOffset(-2f ,-65f )
+        cs.showText(subject)
+        cs.endText()
+
+        //school name
+        cs.beginText()
+        cs.setFont(font , 27f)
+        val textWidth = (font.getStringWidth(schoolName.uppercase()) / 1000.0f) * 27f;
+        cs.newLineAtOffset(297.72f-(textWidth)/2f , 670f)
+        cs.showText(schoolName.uppercase())
+        cs.newLineAtOffset(textWidth/2f , 0f)
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(297.72f-(textWidth)/2f , 664f , textWidth , 2.5f)
+        cs.fill()
+
+        //session
+        cs.beginText()
+        cs.setFont(font , 26.0f)
+        cs.setNonStrokingColor(0.0f , 0.0f ,0.0f)
+        val textWidth2 = (font.getStringWidth(session.uppercase()) / 1000.0f) * 26.0f;
+        cs.newLineAtOffset(297.72f-(textWidth2)/2f , 630f)
+        cs.showText(session.uppercase())
+        cs.newLineAtOffset(textWidth2/2f , 0f)
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(297.72f-(textWidth2)/2f , 626f , textWidth2 , 2.0f)
+        cs.fill()
+        cs.close()
+
+        //QRCode
+        if(cbQrCode.isChecked){
+            val bitmap = getBitmapOfQrText("Myself $name, I am from class $myClass, section $section and roll number $rollNo." +
+                    " I have completed an assignment in the subject of $subject.\n ThankYou!")
+            val stream = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "qrCode")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 510.0f , 10.0f , 75f , 75f)
+            contentStreamForImage.close()
+        }
+        //college logo
+        if(schoolLogoBitmap != null){
+            val stream = ByteArrayOutputStream()
+            schoolLogoBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "collegeLogo")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 477.5f , 734.0f , 100f , 100f)
+            contentStreamForImage.close()
+        }
+
+
+        writePdfFile(document , "Front_page_maker-" + System.currentTimeMillis())
+
+    }
+
+    private fun tempFourth(document: PDDocument, name: String, myClass: String, section: String, rollNo: String, session: String, subject: String, schoolName: String) {
+
+        //edit the pdf for second template
+        val pdPage = document.getPage(0)
+        val cs =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+        cs.beginText()
+        val font = PDType0Font.load(document, assets.open("com/tom_roush/pdfbox/resources/ttf/LiberationSans-Regular.ttf"))
+        cs.setLeading(16.0f) //gap between  two line if used
+        cs.setFont(font , 25f)
+        cs.setNonStrokingColor(0f,0f,0f)
+
+        //name
+        cs.newLineAtOffset(135f ,530f )
+        cs.showText(name)
+
+        //class
+        cs.newLineAtOffset(-4f ,-59f )
+        cs.showText(myClass)
+
+        //section
+        cs.newLineAtOffset(28f ,-57.5f )
+        cs.showText(section)
+
+        //roll no
+        cs.newLineAtOffset(4f ,-57.5f )
+        cs.showText(rollNo)
+
+        //subject
+        cs.newLineAtOffset(-1f ,-57.5f )
+        cs.showText(subject)
+        cs.endText()
+
+        //school name
+        cs.beginText()
+        cs.setFont(font , 29f)
+        val textWidth = (font.getStringWidth(schoolName.uppercase()) / 1000.0f) * 29
+        cs.newLineAtOffset(575f-textWidth , 750f)
+        cs.showText(schoolName.uppercase())
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(575f-textWidth , 740f , textWidth , 2.5f)
+        cs.fill()
+
+        //session
+        cs.beginText()
+        cs.setFont(font , 27f)
+        cs.setNonStrokingColor(0f,0f,0f)
+        val textWidth2 = (font.getStringWidth(session.uppercase()) / 1000.0f) * 27
+        cs.newLineAtOffset(575f-textWidth2 , 700f)
+        cs.showText(session.uppercase())
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(575f-textWidth2 , 695f , textWidth2 , 1.8f)
+        cs.fill()
+        cs.close()
+
+        //QRCode
+        if(cbQrCode.isChecked){
+            val bitmap = getBitmapOfQrText("Myself $name, I am from class $myClass, section $section and roll number $rollNo." +
+                    " I have completed an assignment in the subject of $subject.\n ThankYou!")
+            val stream = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "qrCode")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 510.0f , 10.0f , 75f , 75f)
+            contentStreamForImage.close()
+        }
+        //college logo
+        if(schoolLogoBitmap != null){
+            val stream = ByteArrayOutputStream()
+            schoolLogoBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "collegeLogo")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 30f , 600f , 100f , 100f)
+            contentStreamForImage.close()
+        }
+
 
 
         writePdfFile(document , "Front_page_maker-" + System.currentTimeMillis())
@@ -317,7 +496,6 @@ class SchoolEditActivity : AppCompatActivity() {
                 }
                 contentResolver.update(it, contentValues, null, null)
                 outputStream?.close()
-                Toast.makeText(this@SchoolEditActivity, "/storage/emulated/0/Documents/Front_Page_Maker/$pdfName", Toast.LENGTH_LONG).show()
                 val newPath = directory.absolutePath.toString() + "/" + pdfName + ".pdf"
 
                 intent.putExtra("actualFileUri" , newPath)
@@ -335,7 +513,6 @@ class SchoolEditActivity : AppCompatActivity() {
 
                 pdDocument.save(fileForSave)
                 pdDocument.close()
-                Toast.makeText(this@SchoolEditActivity, "/storage/emulated/0/Documents/Front_Page_Maker/$pdfName", Toast.LENGTH_LONG).show()
                 intent.putExtra("actualFileUri" , newPath)
                 startActivity(intent)
             }

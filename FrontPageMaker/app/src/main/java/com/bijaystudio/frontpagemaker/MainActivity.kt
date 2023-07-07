@@ -9,8 +9,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvTemplatesCollege : RecyclerView
     private lateinit var rvTemplatesSchool : RecyclerView
-    private var arrImageFilesCollege = arrayOf(R.drawable.college_temp_one_image , R.drawable.college_temp_two_image , R.drawable.college_temp_three_image)
-    private var arrImageFilesSchool = arrayOf(R.drawable.school_temp_one_image , R.drawable.school_temp_two_image)
+    private var arrImageFilesCollege = arrayOf(R.drawable.college_temp_one_image , R.drawable.college_temp_two_image , R.drawable.college_temp_three_image , R.drawable.college_temp_four_image)
+    private var arrImageFilesSchool = arrayOf(R.drawable.school_temp_one_image , R.drawable.school_temp_two_image , R.drawable.school_temp_three_image , R.drawable.school_temp_four_image)
     private lateinit var collegeAdapter: CollegeTempAdapter
     private lateinit var schoolAdapter: SchoolTempAdapter
 

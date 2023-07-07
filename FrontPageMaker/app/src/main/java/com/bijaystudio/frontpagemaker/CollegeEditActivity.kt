@@ -29,6 +29,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
@@ -40,7 +42,7 @@ import java.io.File
 
 class CollegeEditActivity : AppCompatActivity() {
 
-    private val arrIdOfPdfCollege = arrayOf(R.raw.college_temp_one_pdf , R.raw.college_temp_two_pdf , R.raw.college_temp_three_pdf)
+    private val arrIdOfPdfCollege = arrayOf(R.raw.college_temp_one_pdf , R.raw.college_temp_two_pdf , R.raw.college_temp_three_pdf , R.raw.college_temp_four_pdf)
     @SuppressLint("SdCardPath")
     var directory = File("/sdcard/Documents/Front_Page_Maker/")
     private var folderPath = Environment.getDataDirectory().absolutePath + "/storage/emulated/0/Documents/Front_Page_Maker"
@@ -104,7 +106,7 @@ class CollegeEditActivity : AppCompatActivity() {
                 }
             }
         }
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->
 
         }
         btnSubmit.setOnClickListener {
@@ -122,6 +124,7 @@ class CollegeEditActivity : AppCompatActivity() {
                 requestPermission()
             }
         }
+
     }
 
     private fun createPdfFromTemplate(templateId : Int ) {
@@ -143,6 +146,8 @@ class CollegeEditActivity : AppCompatActivity() {
                 tempSecond(document , name , regNo , rollNo , branchName , semesterName , session,subject , collegeName)
             2 ->
                 tempThird(document , name , regNo , rollNo , branchName , semesterName , session,subject , collegeName)
+            3 ->
+                tempFourth(document , name , regNo , rollNo , branchName , semesterName , session,subject , collegeName)
         }
     }
 
@@ -382,6 +387,92 @@ class CollegeEditActivity : AppCompatActivity() {
         writePdfFile(document , "Front_page_maker-" + System.currentTimeMillis())
     }
 
+    private fun tempFourth(document: PDDocument, name: String, regNo: String, rollNo: String, branchName: String, semesterName: String, session: String, subject: String  , collegeName: String) {
+        //edit the pdf for second template
+        val pdPage = document.getPage(0)
+        val cs =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+        cs.beginText()
+        val font = PDType0Font.load(document, assets.open("com/tom_roush/pdfbox/resources/ttf/LiberationSans-Regular.ttf"))
+        cs.setLeading(16.0f) //gap between  two line if used
+        cs.setFont(font , 25f)
+        cs.setNonStrokingColor(0f,0f,0f)
+//        name
+        cs.newLineAtOffset(137f ,530f )
+        cs.showText(name)
+
+        //roll no
+        cs.newLineAtOffset(27f ,-59f )
+        cs.showText(rollNo)
+
+        //reg no
+        cs.newLineAtOffset(-8f ,-57.5f )
+        cs.showText(regNo)
+
+        //semester
+        cs.newLineAtOffset(27f ,-57.5f )
+        cs.showText(semesterName)
+
+        //department
+        cs.newLineAtOffset(-23f ,-57.5f )
+        cs.showText(branchName)
+
+        //subject
+        cs.newLineAtOffset(0f ,-57.5f )
+        cs.showText(subject)
+        cs.endText()
+
+        //college name
+        cs.beginText()
+        cs.setFont(font , 29f)
+        val textWidth = (font.getStringWidth(collegeName.uppercase()) / 1000.0f) * 29
+        cs.newLineAtOffset(575f-textWidth , 750f)
+        cs.showText(collegeName.uppercase())
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(575f-textWidth , 740f , textWidth , 2.5f)
+        cs.fill()
+
+//        //session
+        cs.beginText()
+        cs.setFont(font , 27f)
+        cs.setNonStrokingColor(0f,0f,0f)
+        val textWidth2 = (font.getStringWidth(session.uppercase()) / 1000.0f) * 27
+        cs.newLineAtOffset(575f-textWidth2 , 700f)
+        cs.showText(session.uppercase())
+        //add a underline to college name
+        cs.endText()
+        cs.setNonStrokingColor(0.25f , 0.25f ,0.1f)
+        cs.addRect(575f-textWidth2 , 695f , textWidth2 , 1.8f)
+        cs.fill()
+        cs.close()
+
+        //QRCode
+        if(cbQrCode.isChecked){
+            val bitmap = getBitmapOfQrText("Myself $name, I am from $branchName department $semesterName semester with roll number $rollNo and registration number $regNo. I have completed an assignment in the subject of $subject.\n Thank You!")
+            val stream = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "qrCode")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 510.0f , 10.0f , 75f , 75f)
+            contentStreamForImage.close()
+        }
+        //college logo
+        if(collegeLogoBitmap != null){
+            val stream = ByteArrayOutputStream()
+            collegeLogoBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitMapData = stream.toByteArray()
+            val qrImage = PDImageXObject.createFromByteArray(document , bitMapData , "collegeLogo")
+            val contentStreamForImage =  PDPageContentStream(document , pdPage , PDPageContentStream.AppendMode.APPEND , true)
+            contentStreamForImage.drawImage(qrImage , 30f , 600f , 100f , 100f)
+            contentStreamForImage.close()
+        }
+
+
+        writePdfFile(document , "Front_page_maker-" + System.currentTimeMillis())
+    }
+
     private fun writePdfFile(pdDocument: PDDocument, pdfName: String) {
         val intent = Intent(this@CollegeEditActivity , PdfViewActivity::class.java)
         intent.putExtra("templateIndex" , 9999)
@@ -413,7 +504,6 @@ class CollegeEditActivity : AppCompatActivity() {
                 }
                 contentResolver.update(it, contentValues, null, null)
                 outputStream?.close()
-                Toast.makeText(this@CollegeEditActivity, "/storage/emulated/0/Documents/Front_Page_Maker/$pdfName", Toast.LENGTH_LONG).show()
                 val newPath = directory.absolutePath.toString() + "/" + pdfName + ".pdf"
 
                 intent.putExtra("actualFileUri" , newPath)
@@ -431,7 +521,6 @@ class CollegeEditActivity : AppCompatActivity() {
 
                 pdDocument.save(fileForSave)
                 pdDocument.close()
-                Toast.makeText(this@CollegeEditActivity, "/storage/emulated/0/Documents/Front_Page_Maker/$pdfName", Toast.LENGTH_LONG).show()
                 intent.putExtra("actualFileUri" , newPath)
                 startActivity(intent)
             }
